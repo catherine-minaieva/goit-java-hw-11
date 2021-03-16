@@ -8,8 +8,8 @@ package HomeWork;
 public class TaskFirst {
     public void app(int lifetime) throws InterruptedException {
             Counter counter = new Counter();
-            Thread1 t1 = new Thread1(counter);
-            Thread2 t2 = new Thread2(counter, "Прошло 5 секунд!");
+            Thread0 t1 = new Thread0(counter);
+            Thread1 t2 = new Thread1(counter, "Прошло 5 секунд!");
 
             t1.start();
             t2.start();
@@ -25,11 +25,11 @@ public class TaskFirst {
             task.app(15);
         }
 
-        class Thread1 extends Thread {
+        class Thread0 extends Thread {
 
             private Counter app;
 
-            public Thread1(Counter app) {
+            public Thread0(Counter app) {
                 this.app = app;
             }
 
@@ -45,12 +45,12 @@ public class TaskFirst {
             }
         }
 
-        class Thread2 extends Thread {
+        class Thread1 extends Thread {
 
             private Counter app;
             private String message;
 
-            public Thread2(Counter app, String message) {
+            public Thread1(Counter app, String message) {
                 this.app = app;
                 this.message = message;
             }
@@ -62,7 +62,7 @@ public class TaskFirst {
                         n = app.last();
                         System.out.println(n);
                         if (n % 5 == 0)
-                            System.out.println(message);
+                            System.out.println(Thread.currentThread().getName() + message);
                         } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
@@ -76,6 +76,8 @@ public class TaskFirst {
 
             public synchronized void add() {
                 this.number++;
+                System.out.println(Thread.currentThread().getName());
+//                notifyAll();
                 notify();
             }
 
