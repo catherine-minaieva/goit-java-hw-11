@@ -2,19 +2,18 @@ package HomeWork;
 
 public class TaskFirstTimer implements Runnable {
 
-    private final int period;
+    private final int second =  1;
     private Thread t = new Thread(this);
 
-    TaskFirstTimer(int period) {
-        this.period = period;
-        t.start();
+    TaskFirstTimer() {
+          t.start();
     }
 
     @Override
     public void run() {
         try {
-            while (Message.count < 15) {
-                Thread.sleep(period * 1000 + 100);
+            while (Message.count < Waiter.time) {
+                Thread.sleep(second * 1000 + 100);
                 synchronized (Message.class) {
                     Message.sendMessage(Integer.toString(++Message.count));
                     Message.class.notifyAll();
@@ -28,23 +27,23 @@ public class TaskFirstTimer implements Runnable {
 
 class Waiter implements Runnable {
     private final int period;
-    private String mes;
+    public static int time;
     private Thread t = new Thread(this);
 
-    Waiter(int period, String mes) {
+    Waiter(int period, int time) {
         this.period = period;
-        this.mes = mes;
+        this.time = time;
         t.start();
     }
 
     @Override
     public void run() {
         try {
-            while (Message.count < 15)
+            while (Message.count < time)
                 synchronized (Message.class) {
                     Message.class.wait();
                     if (Message.count % period == 0)
-                        Message.sendMessage(mes);
+                        Message.sendMessage("Прошло 5 секунд");
                 }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -61,7 +60,7 @@ class Message {
 
 class TimerTest {
     public static void main(String[] args) {
-        new TaskFirstTimer(1);
-        new Waiter(5, "Прошло 5 секунд");
+        new TaskFirstTimer();
+        new Waiter(5, 15);
     }
 }

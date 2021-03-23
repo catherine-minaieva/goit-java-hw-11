@@ -36,7 +36,11 @@ public class TaskFirst {
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
+                        int n = app.last();
+                        n++;
                         Thread.sleep(1000);
+                       System.out.println(n);
+
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
@@ -57,15 +61,12 @@ public class TaskFirst {
 
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
-                    int n;
-                    try {
-                        n = app.last();
-                        System.out.println(n);
-                        if (n % 5 == 0)
-                            System.out.println(Thread.currentThread().getName() + message);
-                        } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
+                    int n = 0;
+                    //                        n = app.last();
+//                        System.out.println(n);
+                    if (n % 5 == 0)
+
+                        System.out.println(Thread.currentThread().getName() + message);
                 }
             }
         }
